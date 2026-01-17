@@ -7,10 +7,7 @@ if (! defined('ABSPATH')) {
 class WPBTM_Plugin
 {
 
-    /** @var WPBTM_Task_Manager */
     protected $task_manager;
-
-    /** @var WPBTM_Cron_Runner */
     protected $cron_runner;
 
     public function init()
@@ -25,5 +22,13 @@ class WPBTM_Plugin
         );
 
         $this->cron_runner->init();
+
+        if (is_admin()) {
+            $admin = new WPBTM_Admin_Page(
+                $this->task_manager,
+                $this->cron_runner
+            );
+            $admin->init();
+        }
     }
 }
